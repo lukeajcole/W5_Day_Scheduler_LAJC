@@ -1,13 +1,34 @@
 var mainContainer = $('#schedContainer');
 var currTime = $('#currentDay');
-
-var startHour = 15;
-var endHour = 24;
+var startEl = $('#startHour');
+var endEl = $('#endHour');
+var startHour;
+var endHour;
 var currHour = moment().format("HH");
 
 var i;
 
 var noteStore = initializeStorage();
+
+startHour = noteStore['startHr'];
+endHour = noteStore['endHr'];
+
+startEl.val(startHour);
+endEl.val(endHour);
+
+startEl.on('change',function(){
+    console.log('changed')
+    noteStore['startHr'] = startEl.val();
+    localStorage.setItem('noteStore', JSON.stringify(noteStore));
+})
+
+endEl.on('change',function(){
+    noteStore['endHr'] = startEl.val();
+    localStorage.setItem('noteStore', JSON.stringify(noteStore));
+})
+
+
+
 var scheduleEl = makeScheduleEl(noteStore);
 mainContainer.append(scheduleEl);
 
@@ -16,7 +37,6 @@ var today = moment().format("[Today is] LL")
 currTime.text(today);
 
 noteStore['date'] = moment().format("YYYYMMDD");
-
 setItemState();
 startTimer();
 
@@ -95,15 +115,12 @@ function makeScheduleEl (noteStore) {
     return scheduleEl;
 }
 
-{/* <div class="form-group">
-<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-</div> */}
 
 function initializeStorage() {
     var i;
     var storeChk = localStorage.getItem('noteStore');
     if (storeChk === null){
-        var noteStore = {date:"20210711"};
+        var noteStore = {date:"20210711", startHr: 0, endHr:24};
         for (i=0; i < 24; i++){
             noteStore["h" + i] = '';
         }
@@ -111,6 +128,7 @@ function initializeStorage() {
     } else {
         var noteStore = JSON.parse(localStorage.getItem('noteStore'));
     }
+
     return noteStore;
 }
 
