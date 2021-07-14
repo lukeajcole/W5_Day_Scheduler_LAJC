@@ -5,17 +5,20 @@ var endEl = $('#endHour');
 var startHour;
 var endHour;
 var currHour = moment().format("HH");
-
 var i;
 
+//get the data from the local storage or make it
 var noteStore = initializeStorage();
 
+//pull the start and end times from the stored object
 startHour = noteStore['startHr'];
 endHour = noteStore['endHr'];
 
+//put the start and end values on the screen
 startEl.val(startHour);
 endEl.val(endHour);
 
+//Update the sotrage object when the user changes the value in the input box AND clicks away from it
 startEl.on('change',function(){
     noteStore['startHr'] = startEl.val();
     localStorage.setItem('noteStore', JSON.stringify(noteStore));
@@ -27,9 +30,9 @@ endEl.on('change',function(){
 })
 
 
-
+// Make the hour blocks of the cheduler
 var scheduleEl = makeScheduleEl(noteStore);
-console.log(scheduleEl);
+// Append the schedule
 mainContainer.append(scheduleEl);
 
 //Set Today's date
@@ -37,16 +40,17 @@ var today = moment().format("[Today is] LL")
 currTime.text(today);
 
 noteStore['date'] = moment().format("YYYYMMDD");
+
+//Call the function to set the style that indicates past, present, future
 setItemState();
+//Start the interval to check for the current hour
 startTimer();
 
-
-
-
+//Look for a click anywhere in the main container, but only do something when the target is the save button
 mainContainer.on('click', saveInput);
 
 
-/////////////////////////////////////////
+/////////////////////FUNCTIONS////////////////////
 
 function saveInput (event) {
     var target = $(event.target);
