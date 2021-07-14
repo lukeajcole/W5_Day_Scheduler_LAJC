@@ -1,7 +1,7 @@
 var mainContainer = $('#schedContainer');
 var currTime = $('#currentDay');
 
-var startHour = 16;
+var startHour = 15;
 var endHour = 24;
 var currHour = moment().format("HH");
 
@@ -41,7 +41,12 @@ function saveInput (event) {
 
 function makeScheduleEl (noteStore) {
     var scheduleEl = $("<div>");
-
+    var headRow = $("<tr>");
+    headRow.addClass('row border-top border-bottom  headRow')
+    headRow.append("<td class='col-sm-1 text-center m-auto'>HOUR</td>");
+    headRow.append("<td class='col-sm-10 text-center m-auto'>SCHEDULE NOTES</td>");
+    headRow.append("<td class='col-sm-1 text-center m-auto'>SAVE BUTTON</td>");
+    scheduleEl.append(headRow);
     for (i=startHour; i < endHour; i++){
         //create the row element
         var itemEl = $('<tr>');
@@ -50,7 +55,7 @@ function makeScheduleEl (noteStore) {
         //create and append hour label
         var hourEl = $('<td>');
         hourEl.text(i);
-        hourEl.addClass('col-sm-1 text-center align-middle');
+        hourEl.addClass('col-sm-1 text-center m-auto text-dark');
         hourEl.attr('id','hourLbl');
         //create and append note element
         var noteEl = $('<td>');
@@ -67,10 +72,10 @@ function makeScheduleEl (noteStore) {
         noteEl.addClass('col-sm-10 border-left');
         //create and append save button
         var btnEl = $('<td>');
-        btnEl.addClass('col-sm-1 border-left text-center align-middle');
+        btnEl.addClass('col-sm-1 border-left text-center');
         var saveBtn = $("<button>");
         saveBtn.type = "button";
-        saveBtn.addClass("btn btn-primary saveBtn m-3");
+        saveBtn.addClass("btn btn-primary saveBtn m-auto text-dark");
         var iEl = $('<i>');
         iEl.text("SAVE");
         saveBtn.append(iEl);
