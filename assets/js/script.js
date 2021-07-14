@@ -17,19 +17,19 @@ startEl.val(startHour);
 endEl.val(endHour);
 
 startEl.on('change',function(){
-    console.log('changed')
     noteStore['startHr'] = startEl.val();
     localStorage.setItem('noteStore', JSON.stringify(noteStore));
 })
 
 endEl.on('change',function(){
-    noteStore['endHr'] = startEl.val();
+    noteStore['endHr'] = endEl.val();
     localStorage.setItem('noteStore', JSON.stringify(noteStore));
 })
 
 
 
 var scheduleEl = makeScheduleEl(noteStore);
+console.log(scheduleEl);
 mainContainer.append(scheduleEl);
 
 //Set Today's date
@@ -74,7 +74,10 @@ function makeScheduleEl (noteStore) {
     headRow.append("<td class='col-sm-10 text-center m-auto'>SCHEDULE NOTES</td>");
     headRow.append("<td class='col-sm-1 text-center m-auto'>SAVE BUTTON</td>");
     scheduleEl.append(headRow);
+    startHour = parseInt(startHour);
+    endHour = parseInt(endHour);
     for (i=startHour; i < endHour; i++){
+        console.log("row " + i);
         //create the row element
         var itemEl = $('<tr>');
         itemEl.attr('id','h' + i);
@@ -148,6 +151,7 @@ function setItemState (){
             currEl.removeClass('present future')
         } else if (i == currHour) {
             //set class = present
+            console.log(i);
             currEl.addClass('present');
             currEl.removeClass('past future')
         } else if (i > currHour) {
