@@ -31,8 +31,15 @@ mainContainer.on('click', saveInput);
 function saveInput (event) {
     var target = $(event.target);
 
-    if (target.is("button")) {
+    if (target.is("i")) {
         itemNote = target.parent().siblings('#noteEl').children().children().val();
+        console.log(itemNote);
+        itemHour = 'h' + target.parents('td').siblings('#hourLbl').text();
+        noteStore[itemHour] = itemNote;
+        localStorage.setItem('noteStore', JSON.stringify(noteStore));
+    } else if (target.is("button")) {
+        itemNote = target.parent().siblings('#noteEl').children().children().val();
+        console.log(itemNote);
         itemHour = 'h' + target.parent().siblings('#hourLbl').text();
         noteStore[itemHour] = itemNote;
         localStorage.setItem('noteStore', JSON.stringify(noteStore));
@@ -77,7 +84,7 @@ function makeScheduleEl (noteStore) {
         saveBtn.type = "button";
         saveBtn.addClass("btn btn-primary saveBtn m-auto text-dark");
         var iEl = $('<i>');
-        iEl.text("SAVE");
+        iEl.addClass('fas fa-save');
         saveBtn.append(iEl);
         btnEl.append(saveBtn);
 
